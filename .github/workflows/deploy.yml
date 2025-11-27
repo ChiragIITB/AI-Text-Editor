@@ -5,6 +5,12 @@ on:
     branches:
       - main # Run this workflow when code is pushed to the main branch
 
+# CRITICAL FIX: Add explicit permissions for the GitHub Actions token
+permissions:
+  contents: write # This grants the necessary write access to push the deployment
+  pages: write
+  id-token: write # Required for some advanced GitHub features, good practice to include
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -26,8 +32,9 @@ jobs:
       - name: Build React App with ENV
         run: npm run build
         env:
-          # This key must match the name you used in GitHub Secrets (VITE_Groq_API_KEY)
-          VITE_Groq_API_KEY: ${{ secrets.VITE_Groq_API_KEY }}
+          # FIX: The key name used in your code must match the secret name.
+          # Assuming you set the secret name to VITE_Groq_API_KEY in GitHub Settings.
+          VITE_Groq_API_KEY: ${{ secrets.VITE_Groq_API_KEY }} 
           
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
