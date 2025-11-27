@@ -1,0 +1,38 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Run this workflow when code is pushed to the main branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Use a stable Node version
+
+      - name: Install Dependencies
+        run: npm install
+        
+      # CRITICAL STEP: Inject the secret key (VITE_ prefix required for Vite/modern React setups)
+      # The 'run' command executes the 'build' script defined in your package.json.
+      - name: Build React App with ENV
+        run: npm run build
+        env:
+          # This key must match the name you used in GitHub Secrets (VITE_Groq_API_KEY)
+          VITE_GEMINI_API_KEY: ${{ secrets.VITE_Groq_API_KEY }}
+          
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # Publish Directory is 'build' (standard for 'react-scripts build' or Vite configured for 'build')
+          publish_dir: ./build
+          force_orphan: true
