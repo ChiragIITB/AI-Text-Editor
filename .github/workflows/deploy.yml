@@ -2,44 +2,41 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - main # Run this workflow when code is pushed to the main branch
+    branches: ["main"]
+  workflow_dispatch:
 
-# CRITICAL FIX: Add explicit permissions for the GitHub Actions token
 permissions:
-  contents: write # This grants the necessary write access to push the deployment
+  contents: read
   pages: write
-  id-token: write # Required for some advanced GitHub features, good practice to include
+  id-token: write
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-        
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20' # Use a stable Node version
 
-      - name: Install Dependencies
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
         run: npm install
-        
-      # CRITICAL STEP: Inject the secret key (VITE_ prefix required for Vite/modern React setups)
-      # The 'run' command executes the 'build' script defined in your package.json.
-      - name: Build React App with ENV
+
+      - name: Build Vite app
         run: npm run build
         env:
-          # FIX: The key name used in your code must match the secret name.
-          # Assuming you set the secret name to VITE_Groq_API_KEY in GitHub Settings.
-          VITE_Groq_API_KEY: ${{ secrets.VITE_Groq_API_KEY }} 
-          
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+          VITE_Groq_API_KEY: ${{ secrets.VITE_Groq_API_KEY }}
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          # Publish Directory is 'build' (standard for 'react-scripts build' or Vite configured for 'build')
-          publish_dir: ./build
-          force_orphan: true
+          path: ./dist
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
