@@ -27,7 +27,7 @@ jobs:
         run: npm run build
         env:
           # This key must match the name you used in GitHub Secrets (VITE_Groq_API_KEY)
-          VITE_GEMINI_API_KEY: ${{ secrets.VITE_Groq_API_KEY }}
+          VITE_Groq_API_KEY: ${{ secrets.VITE_Groq_API_KEY }}
           
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
