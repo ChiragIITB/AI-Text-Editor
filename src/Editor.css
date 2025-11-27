@@ -1,0 +1,82 @@
+
+
+.editor-box{
+    max-height: 60vh;
+    overflow-y: scroll;
+    width: 95%;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-align: left;
+    padding: 0.3rem;
+
+    background-color: white;
+    /* margin: 1rem; */
+}
+
+.editor-box div{
+    background-color: white;
+}
+
+.ProseMirror .ProseMirror-focused{
+    border: none;
+}
+
+.ProseMirror p{
+    padding: 0.5rem 0.6rem;
+    padding-top: 1rem;
+    background-color: rgba(255, 255, 255, 1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Placeholder styling */
+.ProseMirror p::before {
+  content: attr(data-placeholder);
+  color: #999;
+  pointer-events: none;
+  height: 0;
+}
+
+.ProseMirror p:first-child::before {
+  content: attr(data-placeholder);
+  color: #999;
+  pointer-events: none;
+  position: absolute;
+  margin-left: 4px;
+}
+
+.ProseMirror p:first-child {
+  position: relative;
+}
+
+
+.buttons{
+    align-self: flex-end;
+}
+
+.buttons button{
+    /* width: 15%; */
+    min-width: 100px;
+    margin: 0.5rem 0.5rem;
+    /* padding: 0.6rem 1rem; */
+    align-self: flex-end;
+}
+
+
+/* DEFAULT EDITOR FORMAT CSS */
+
+.ProseMirror h1{
+    font-size: 2.8rem;
+    color: black;
+    margin-inline: 0;
+}
+
+.ProseMirror h2{
+    font-size: 2.0rem;
+    color: rgba(0, 0, 0, 0.8);
+    margin: 0.6rem 0.7rem;
+}
+
+.ProseMirror p{
+    margin: 0.3rem 1rem;
+}

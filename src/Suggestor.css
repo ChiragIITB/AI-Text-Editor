@@ -1,0 +1,29 @@
+
+
+.suggestor-wrapper{
+    /* height: 10%; */
+    max-height: 20%;
+    width: 95%;
+    padding: 0.4rem;
+
+    border: 1px solid black;
+    border-radius: 8px;
+}
+
+.suggestion-paragraph::after{
+    content: "";
+    min-width: 10px;
+    min-height: 100px;
+    background-color: aquamarine;
+}
+
+.suggestion-sentence{
+    transition: all 150ms ease-out;
+}
+.suggestion-sentence:hover{
+    cursor: pointer;
+    color: rgb(6, 118, 193);
+}
+.suggestion-sentence-added{
+    color: gray
+}
