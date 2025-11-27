@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://chiragiitb.github.io/AI-Text-Editor",
+  "homepage": "https://chiragiitb.github.io/ai-text-editor",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
